@@ -184,9 +184,12 @@ jobs:
       pull-requests: write
       issues: write
     if: >
-      github.event.pull_request.merged == true &&
-      contains(github.event.pull_request.title, '[CLEANUP]')
-
+      github.event_name == 'schedule' ||
+      (
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.merged == true &&
+        contains(github.event.pull_request.title, '[CLEANUP]')
+      )
     steps:
     - uses: 'actions/checkout@v3'
     - uses: hashicorp/setup-terraform@v2
