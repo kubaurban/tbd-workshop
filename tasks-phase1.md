@@ -142,8 +142,43 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
 13. Add support for preemptible/spot instances in a Dataproc cluster
 
-    ***place the link to the modified file and inserted terraform code***
-    
+In order to add support for preemptible/spot instances, we updated three files:
+- [main.tf in root dir](./main.tf) by adding values for *secondary_num_instances* and *secondary_preemptibility* variables in dataproc module declaration:
+  ```hcl
+  module "dataproc" {
+    depends_on                = [module.vpc]
+    source                    = "./modules/dataproc"
+    project_name              = var.project_name
+    region                    = var.region
+    subnet                    = module.vpc.subnets[local.notebook_subnet_id].id
+    machine_type              = "e2-standard-2"
+    secondary_num_instances   = 4
+    secondary_preemptibility  = "SPOT"
+    image_version             = "2.2.69-ubuntu22"
+  }
+  ```
+- [variables.tf in dataproc module](./modules/dataproc/variables.tf) by adding two variables declaration:
+  ```hcl
+  variable "secondary_num_instances" {
+    type        = number
+    default     = 4
+    description = "Number of secondary nodes"
+  }
+  
+  variable "secondary_preemptibility" {
+    type        = string
+    default     = "SPOT"
+    description = "Preemptibility of the secondary workers"
+  }
+  ```
+- [main.tf in dataproc module](./modules/dataproc/main.tf) by adding config for secondary workers:
+  ```hcl
+  preemptible_worker_config {
+    num_instances  = var.secondary_num_instances
+    preemptibility = var.secondary_preemptibility
+  }
+  ```
+
 14. Triggered Terraform Destroy on Schedule or After PR Merge. Goal: make sure we never forget to clean up resources and burn money.
 
 Add a new GitHub Actions workflow that:
