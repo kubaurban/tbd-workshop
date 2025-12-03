@@ -80,7 +80,7 @@ IMPORTANT ❗ Please remember to destroy all the resources after each work sessi
     ![Yarn UI](images/yarnui.png)
   
    
-8. Draw an architecture diagram (e.g. in draw.io) that includes:
+7. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. Description of the components of service accounts
     2. List of buckets for disposal
 
@@ -88,7 +88,7 @@ IMPORTANT ❗ Please remember to destroy all the resources after each work sessi
     
     ![Diagram](<images/graphviz.svg>)
 
-9. Create a new PR and add costs by entering the expected consumption into Infracost
+8. Create a new PR and add costs by entering the expected consumption into Infracost
 For all the resources of type: `google_artifact_registry`, `google_storage_bucket`, `google_service_networking_connection`
 create a sample usage profiles and add it to the Infracost task in CI/CD pipeline. Usage file [example](https://github.com/infracost/infracost/blob/master/infracost-usage-example.yml) 
 
@@ -129,18 +129,18 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
     ![Usage cost](images/usage_cost.png)
 
-10. Create a BigQuery dataset and an external table using SQL
+9. Create a BigQuery dataset and an external table using SQL
 
     We added sample .orc file from Apache repo https://github.com/apache/orc/blob/main/examples/demo-12-zlib.orc to our bucket. We executed commands below
     ![BigQuery commands and result](images/bigquery.png)
 
     ORC files don’t need a separate table schema because they are self-describing and store the schema internally.
     
-12. Find and correct the error in spark-job.py
+10. Find and correct the error in spark-job.py
 
     ***describe the cause and how to find the error***
 
-13. Add support for preemptible/spot instances in a Dataproc cluster
+11. Add support for preemptible/spot instances in a Dataproc cluster
 
 In order to add support for preemptible/spot instances, we updated three files:
 - [main.tf in root dir](./main.tf) by adding values for *secondary_num_instances* and *secondary_preemptibility* variables in dataproc module declaration:
@@ -179,7 +179,7 @@ In order to add support for preemptible/spot instances, we updated three files:
   }
   ```
 
-14. Triggered Terraform Destroy on Schedule or After PR Merge. Goal: make sure we never forget to clean up resources and burn money.
+12. Triggered Terraform Destroy on Schedule or After PR Merge. Goal: make sure we never forget to clean up resources and burn money.
 
 Add a new GitHub Actions workflow that:
   1. runs terraform destroy -auto-approve
