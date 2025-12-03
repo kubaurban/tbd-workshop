@@ -138,9 +138,19 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     
 10. Find and correct the error in spark-job.py
 
-    ***describe the cause and how to find the error***
+    In spark-job.py we have to change DATA_BUCKET variable. We changed this variable to our bucket path gs://tbd-2025z-304021-data/output. To be sure that this        file is correct we send job to Dataproc cluster by following command
+    ```
+    gcloud dataproc jobs submit pyspark spark-job.py --cluster=tbd-cluster --region=europe-west1
+    ```
+    Job has ended successfully. We can explore results in terminal or in Google Cloud Console.
 
-11. Add support for preemptible/spot instances in a Dataproc cluster
+    ![Job's status](images/job-success.png)
+
+    ![Job's result](images/dataproc_job.png)
+
+    ![Output bucket files](images/bucket.png)
+
+12. Add support for preemptible/spot instances in a Dataproc cluster
 
 In order to add support for preemptible/spot instances, we updated three files:
 - [main.tf in root dir](./main.tf) by adding values for *secondary_num_instances* and *secondary_preemptibility* variables in dataproc module declaration:
