@@ -216,7 +216,7 @@ on:
       - master
   
   schedule:
-    - cron: '10 22 * * *' 
+    - cron: '10 1 * * *' 
 
 permissions: read-all
 
@@ -229,7 +229,11 @@ jobs:
       pull-requests: write
       issues: write
     if: >
-      github.event_name == 'schedule' ||
+      (
+        github.event_name == 'schedule' &&
+        github.event.schedule == '7 1 * * *' 
+      )
+      ||
       (
         github.event_name == 'pull_request' &&
         github.event.pull_request.merged == true &&
@@ -257,7 +261,7 @@ jobs:
 ```
 As you can see, the above workflow is triggered when:
 - PR title contains *[CLEANUP]* tag
-- the time is *22:10*
+- the time is *02:10*
   
 To test if this works we created a PR with *[CLEANUP]* tag and we merged it to *master* branch. *Auto-destroy* workflow was triggered:
  ![Successful auto destroy](images/auto-destroy.png)
