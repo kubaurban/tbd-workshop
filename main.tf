@@ -63,13 +63,15 @@ module "gcr" {
 
 #
 module "dataproc" {
-  depends_on    = [module.vpc]
-  source        = "./modules/dataproc"
-  project_name  = var.project_name
-  region        = var.region
-  subnet        = module.vpc.subnets[local.notebook_subnet_id].id
-  machine_type  = "e2-standard-2"
-  image_version = "2.2.69-ubuntu22"
+  depends_on                = [module.vpc]
+  source                    = "./modules/dataproc"
+  project_name              = var.project_name
+  region                    = var.region
+  subnet                    = module.vpc.subnets[local.notebook_subnet_id].id
+  machine_type              = "e2-standard-2"
+  secondary_num_instances   = 4
+  secondary_preemptibility  = "SPOT"
+  image_version             = "2.2.69-ubuntu22"
 }
 
 ## Uncomment for Dataproc batches (serverless)
