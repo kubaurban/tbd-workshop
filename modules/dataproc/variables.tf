@@ -24,3 +24,15 @@ variable "image_version" {
   type    = string
   default = "2.2.69-ubuntu22"
 }
+
+variable "secondary_num_instances" {
+  type        = number
+  default     = 4
+  description = "Number of secondary nodes"
+}
+
+variable "secondary_preemptibility" {
+  type        = string
+  default     = "SPOT"
+  description = "Preemptibility of the secondary workers"
+}
