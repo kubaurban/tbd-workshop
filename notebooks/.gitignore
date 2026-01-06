@@ -1,3 +1,4 @@
 virt/
 .ipynb_checkpoints/
 *.parquet
+venv/
