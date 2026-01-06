@@ -1,0 +1,3 @@
+virt/
+.ipynb_checkpoints/
+*.parquet
