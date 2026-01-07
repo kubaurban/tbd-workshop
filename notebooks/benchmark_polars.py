@@ -12,12 +12,27 @@ print(f"Polars threads: {threads}")
 def query_A_polars():
     return df_pl.group_by('location').agg(pl.col('likes').mean()).height
 
+def query_B_polars():
+    return (
+        df_pl
+        .sort(["user_id", "timestamp"])
+        .with_columns(
+            pl.col("likes")
+              .rolling_mean(window_size=3, min_samples=1)
+              .over("user_id")
+              .alias("avg_last_3")
+        )
+        .filter(pl.col("avg_last_3") > 5000)
+        .height
+    )
+
+
 def query_C_polars():
     return df_pl.join(df_pl_users, on="user_id", how="inner").filter(pl.col("age") >= 25).height
 
 queries = {
     "A polars": query_A_polars,
-
+    "B polars": query_B_polars,
     "C polars": query_C_polars,
 }
 
@@ -32,10 +47,10 @@ def measure_time(query):
 def benchmark(queries):
     results = []
     for query_name, query_fn in queries.items():
-        # three query execution - first warm-up
+        # warm-up
         query_fn()
 
-        # second for time benchmark
+        # benchmark
         t = measure_time(query_fn)
 
         results.append({
