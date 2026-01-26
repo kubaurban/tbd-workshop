@@ -36,3 +36,8 @@ variable "secondary_preemptibility" {
   default     = "SPOT"
   description = "Preemptibility of the secondary workers"
 }
+
+variable "num_workers" {
+  type        = number
+  description = "Number of worker nodes"
+}
