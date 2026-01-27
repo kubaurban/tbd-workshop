@@ -65,7 +65,7 @@ module "gcr" {
 module "dataproc" {
   depends_on               = [module.vpc]
   source                   = "./modules/dataproc"
-  num_workers              = 2
+  num_workers              = 4
   project_name             = var.project_name
   region                   = var.region
   subnet                   = module.vpc.subnets[local.notebook_subnet_id].id
