@@ -1,0 +1,14 @@
+Threads,Query,Time [s]
+2,A spark,5.334861
+2,B spark,30.889099
+2,C spark,5.279859
+4,A spark,4.675530
+4,B spark,16.452482
+4,C spark,5.006238
+8,A spark,3.990342
+8,B spark,10.627597
+8,C spark,4.423984
+16,A spark,4.073355
+16,B spark,9.271257
+16,C spark,4.847525
+
